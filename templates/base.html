@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>{{title}}</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway|Sacramento|Shadows+Into+Light" rel="stylesheet">
+
+
+    <style type="text/css">
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
+        }
+
+        a:link, a:visited {
+            text-decoration: none;
+            color: #444;
+        }
+
+        a:hover {
+            color: green;
+        }
+
+        .headerh1 {
+            text-align: center;
+            font-family: 'Sacramento', cursive;
+            font-size: 50px;
+        }
+
+        .titleh1 {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 35px;
+            margin-bottom: -10px;
+        }
+
+        .titleh2 {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 30px;
+            margin-bottom: -10px;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            display: inline-block;
+            padding-right: 20px;
+        }
+
+        .inner_content {
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        #header_img {
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+            margin-bottom: -40px;
+            width: 80%;
+        }
+
+        nav {
+            margin-top: -18px;
+            text-align: center;
+            background-color: lightpink;
+            padding: 0.1px;
+        }
+
+        nav a:link, nav a:visited {
+            color: #fff;
+        }
+
+        main {
+            width: 75%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .divider {
+            width: 80%;
+            display: block;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+
+        .error {
+            color: red;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #222;
+            color: #fff;
+            font-size: 12px;
+            letter-spacing: 1px;
+            padding: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <img id="header_img" src="http://i0.wp.com/inthisseason356.files.wordpress.com/2017/10/cropped-floral-header.jpg">
+        <h1 class="headerh1">The Coding Garden</h1>
+        <nav>
+            <ul>
+                <li><a href="/blog">Home</a></li>
+                <li><a href="/newpost">Add New Post</a></li>
+                <li><a href="mailto:design@vivianmaxine.com">Contact Me</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="inner_content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+    <footer>
+        Design by Vivian Maxine
+    </footer>
+
+</body>
+</html>

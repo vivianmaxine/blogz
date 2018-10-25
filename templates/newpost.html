@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <h1 class="titleh1">Add New Post</h1>
+    <br>
+    <form action='/newpost' method="POST">
+        <label>
+            Post Title:<br>
+            <input type="text" name="new_title" size="80">
+        </label>
+        <p class="error">{{title_error}}</p><br>
+        <label>
+            Entry Content:<br>
+            <textarea name="new_entry" rows="5" cols="80"></textarea>
+        </label>
+        <p class="error">{{entry_error}}</p><br>
+        <input type="submit" value="Add New Post">
+    </form>
+    <br>
+    <img class="divider" src="https://mbtskoudsalg.com/images/flower-dividers-png-3.png">
+
+    <br>
+{% endblock %}
