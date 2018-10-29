@@ -7,14 +7,14 @@
     <form action='/newpost' method="POST">
         <label>
             Post Title:<br>
-            <input type="text" name="new_title" size="80">
+            <input type="text" name="new_title" value="{{new_post_title}}" size="80">
         </label>
-        <p class="error">{{title_error}}</p><br>
+        <br>
         <label>
             Entry Content:<br>
-            <textarea name="new_entry" rows="5" cols="80"></textarea>
+            <textarea name="new_entry" rows="5" cols="80">{{new_post_entry}}</textarea>
         </label>
-        <p class="error">{{entry_error}}</p><br>
+        <br>
         <input type="submit" value="Add New Post">
     </form>
     <br>

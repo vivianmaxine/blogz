@@ -43,24 +43,25 @@ class BlogPost(db.Model):
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    owner = User.query.filter_by(email=session['email']).first()
+    # owner = User.query.filter_by(username=session['username']).first()
 
     if request.method == 'POST':
         post_title = request.form['title']
         post_entry = request.form['entry']
         new_post = BlogPost(
-            title=post_title, entry=post_entry, owner=owner)
+            title=post_title, entry=post_entry)
         db.session.add(new_post)
         db.session.commit()
 
-    posts = BlogPost.query.filter_by(owner=owner).all()
+    users = User.query.all()
 
-    return render_template('index.html', title="Blogz | Home", posts=posts)
+    return render_template(
+        'index.html', title="Blogz | Home", users=users)
 
 
 @app.route('/blog', methods=['POST', 'GET'])
 def blog():
-    owner = User.query.filter_by(email=session['email']).first()
+    owner = User.query.filter_by(username=session['username']).first()
 
     if request.method == 'POST':
         post_title = request.form['title']
@@ -75,6 +76,28 @@ def blog():
     return render_template('blog.html', title="Blogz", posts=posts)
 
 
+@app.route('/userblog', methods=['POST', 'GET'])
+def userblog():
+    username = request.args.get('user')
+
+    # post = BlogPost.query.filter_by(username=username).all()
+
+    owner = User.query.filter_by(username=username).first()
+
+    posts = BlogPost.query.filter_by(owner=owner).all()
+
+    return render_template(
+        'blog.html', title="Blogz by {0}".format(username), posts=posts)
+
+
+@app.route('/allposts', methods=['POST', 'GET'])
+def allposts():
+    posts = BlogPost.query.all()
+
+    return render_template(
+        'allposts.html', title="Blogz | All Posts", posts=posts)
+
+
 @app.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
@@ -87,6 +110,10 @@ def register():
 
         if username == '' or email == '' or password == '' or verify_pw == '':
             flash("Please fill in all form fields.", 'error')
+            return render_template(
+                'register.html',
+                username=username,
+                email=email)
         else:
             if len(username) > 2 and len(password) > 2:
                 if password == verify_pw:
@@ -101,25 +128,38 @@ def register():
                         # TODO: REMEMBER THE USER
                         session['username'] = username
                         flash(
-                            "Congratulations! You have successfully created an account!\
-                            Log in below.", 'success')
-                        return redirect('/')
+                            "Congratulations! You have successfully created\
+                             an account!", 'success')
+                        return redirect('/newpost')
                     else:
                         flash("Username or email already exists.", 'error')
+                        return render_template(
+                            'register.html',
+                            username=username,
+                            email=email)
                 else:
                     flash("Passwords do not match.", 'error')
+                    return render_template(
+                        'register.html',
+                        username=username,
+                        email=email)
             else:
                 flash(
                     "Username and password must be at least 3 \
                     characters long.", 'error')
+                return render_template(
+                    'register.html',
+                    username=username,
+                    email=email)
 
     return render_template('register.html')
 
 
 @app.before_request
 def require_login():
-    allowed_routes = ['login', 'register']
-    if request.endpoint not in allowed_routes and 'email' not in session:
+    allowed_routes = [
+        'login', 'register', 'index', 'allposts', 'display_single_post']
+    if request.endpoint not in allowed_routes and 'username' not in session:
         return redirect('/login')
 
 
@@ -134,36 +174,43 @@ def login():
             session['username'] = username
             # TODO: ADD VALIDATION
             flash("Success! You are Logged in.", 'success')
-            return redirect('/')
+            return render_template('newpost.html')
         else:
             # TODO: TELL THEM WHY LOGIN FAILED
             flash("Incorrect password or user does not exist", 'error')
+            return render_template('login.html', username=username)
     return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
-    del session['email']
-    return redirect('/')
+    del session['username']
+    return redirect('/blog')
 
 
 @app.route('/newpost', methods=['POST', 'GET'])
 def create_post():
-    title_error = ''
-    entry_error = ''
 
     if request.method == 'POST':
         new_post_title = request.form['new_title']
         new_post_entry = request.form['new_entry']
-        owner = User.query.filter_by(email=session['email']).first()
+        owner = User.query.filter_by(username=session['username']).first()
 
         if new_post_title == '':
-            title_error = 'Please enter a title for your blog post.'
+            flash("Please enter a title for your blog post.", 'error')
+            return render_template(
+                'newpost.html',
+                new_post_title=new_post_title,
+                new_post_entry=new_post_entry)
 
         if new_post_entry == '':
-            entry_error = 'Please enter content for your blog post.'
+            flash("Please enter content for your blog post.", 'error')
+            return render_template(
+                'newpost.html',
+                new_post_title=new_post_title,
+                new_post_entry=new_post_entry)
 
-        if title_error == '' and entry_error == '':
+        else:
             new_post = BlogPost(
                 title=new_post_title, entry=new_post_entry, owner=owner)
 
@@ -173,8 +220,7 @@ def create_post():
             return redirect('/blogpost?id={0}'.format(new_post.id))
 
     return render_template(
-        'newpost.html', title="Add a New Post", title_error=title_error,
-        entry_error=entry_error)
+        'newpost.html', title="Add a New Post")
 
 
 @app.route('/blogpost')

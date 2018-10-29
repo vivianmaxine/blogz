@@ -6,7 +6,9 @@
     {% else %}
         {% for post in posts|reverse %}
             <h2 class="titleh2"><a href="./blogpost?id={{post.id}}">{{post.title}}</a></h2>
-            <p>{{post.entry}}</p><br><br>
+            <p>{{post.entry}}</p>
+            <p class="written_by">Post written by <a href="/userblog?user={{post.owner.username}}">{{post.owner.username}}</a></p>
+            <br>
             <img class="divider" src="http://marcishimoffmentoring.com/wp-content/uploads/2016/08/divider.png"><br>
         {% endfor %}
     {% endif %}

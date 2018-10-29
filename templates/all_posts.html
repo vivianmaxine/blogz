@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if users|length == 0 %}
-        <h4>No users. Check back again soon!</h4>
+    {% if posts|length == 0 %}
+        <h4>No blog posts yet</h4>
     {% else %}
-    <ul>
-        {% for user in users %}
-            <li><a href="/userblog?user={{user.username}}">{{user.username}}</a></a></li>
+        {% for post in posts|reverse %}
+            <h2 class="titleh2"><a href="./blogpost?id={{post.id}}">{{post.title}}</a></h2>
+            <p>{{post.entry}}</p><br><br>
+            <img class="divider" src="http://marcishimoffmentoring.com/wp-content/uploads/2016/08/divider.png"><br>
         {% endfor %}
-    </ul>
     {% endif %}
     <br>
 

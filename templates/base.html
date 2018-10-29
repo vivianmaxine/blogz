@@ -41,11 +41,11 @@
             margin-bottom: -10px;
         }
 
-        ul {
+        nav ul {
             list-style: none;
         }
 
-        li {
+        nav li {
             display: inline-block;
             padding-right: 20px;
         }
@@ -76,7 +76,9 @@
         }
 
         .top_nav {
-            padding: 10px;
+            text-align: right;
+            font-size: 13px;
+            padding: 15px;
         }
 
         main {
@@ -107,6 +109,11 @@
             font-weight: 800; 
         }
 
+        .written_by {
+            font-style: italic;
+            font-size: 10px;
+        }
+
         footer {
             text-align: center;
             background-color: #222;
@@ -120,6 +127,7 @@
 </head>
 <body>
     <div class="top_nav">
+        <a href="/login">Login</a> |
         <a href="/logout">Log Out</a>
     </div>
     <header>
@@ -127,11 +135,12 @@
         <h1 class="headerh1">The Coding Garden Blog</h1>
         <nav>
             <ul>
-                <li><a href="/blog">Home</a></li>
-                <li><a href="/login">Login</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog">My Blog</a></li>
+                <li><a href="/allposts">All Posts</a></li>
                 <li><a href="/register">Register</a></li>
                 <li><a href="/newpost">Add New Post</a></li>
-                <li><a href="mailto:design@vivianmaxine.com">Contact Me</a></li>
+                <li><a href="mailto:design@vivianmaxine.com">Contact</a></li>
             </ul>
         </nav>
     </header>
